@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://crelipmk0mdj2"]
+
+[ext_resource type="Shader" uid="uid://hcc4jx2upoxc" path="res://shaders/turbulence.gdshader" id="1_ig7tw"]
+[ext_resource type="Shader" uid="uid://0kuyaa5g6i5f" path="res://shaders/turbulence_fog.gdshader" id="2_0xm2m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1bvp3"]
+shader = ExtResource("1_ig7tw")
+shader_parameter/TURB_NUM = 10.0
+shader_parameter/TURB_AMP = 0.7
+shader_parameter/TURB_SPEED = 0.3
+shader_parameter/TURB_FREQ = 2.0
+shader_parameter/TURB_EXP = 1.4
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h2yge"]
+frequency = 0.0038
+fractal_octaves = 2
+fractal_lacunarity = 1.5
+fractal_gain = 0.3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1bvp3"]
+seamless = true
+seamless_blend_skirt = 0.494
+noise = SubResource("FastNoiseLite_h2yge")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
+shader = ExtResource("2_0xm2m")
+shader_parameter/TURB_NUM = 10.0
+shader_parameter/TURB_AMP = 0.7
+shader_parameter/TURB_SPEED = 0.2
+shader_parameter/TURB_FREQ = 2.0
+shader_parameter/TURB_EXP = 1.4
+
+[node name="Main" type="Node2D"]
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_1bvp3")
+offset_left = -3213.0
+offset_top = -1077.0
+offset_right = -1865.0
+offset_bottom = 344.0
+texture = SubResource("NoiseTexture2D_1bvp3")
+stretch_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="TextureRect2"]
+material = SubResource("ShaderMaterial_h2yge")
+offset_left = 1679.0
+offset_top = -4.0
+offset_right = 3027.0
+offset_bottom = 1417.0
+texture = SubResource("NoiseTexture2D_1bvp3")
+stretch_mode = 1
